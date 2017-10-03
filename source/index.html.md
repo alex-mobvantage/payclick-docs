@@ -8,9 +8,6 @@ toc_footers:
   - <a href='https://transferless.herokuapp.com/signup'>Sign Up for a Developer Key</a>
   - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
-includes:
-  - errors
-
 search: true
 ---
 
@@ -197,3 +194,15 @@ id | true | The transaction ID to cancel
 ### Response
 
 Returns HTTP status 200 if the transaction was cancelled.
+
+# Errors
+
+> Here's a sample error response:
+
+```json
+{
+  "error": "Invalid access_key"
+}
+```
+
+Invalid requests result in an HTTP status code of 401. The response will be a JSON object with a single `error` property providing a human readabe description of the problem.
