@@ -3,12 +3,9 @@ title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell
-  - ruby
-  - python
-  - javascript
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
+  - <a href='https://transferless.herokuapp.com/signup'>Sign Up for a Developer Key</a>
   - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
 includes:
@@ -19,80 +16,78 @@ search: true
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
-
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
-
-This example API documentation page was created with [Slate](https://github.com/tripit/slate). Feel free to edit it and use it as a base for your own API's documentation.
+Welcome to the TransferLess API docs. You can use the API to create, cancel and view payments programmatically.
 
 # Authentication
 
-> To authorize, use this code:
+TransferLess uses API keys to allow access to the API. You can find your API key on your [dashboard](https://transferless.herokuapp.com/dashboard).
 
-```ruby
-require 'kittn'
+TransferLess expects the API key to be included in all API requests to the server in a parameter called `access_key`.
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
+# Transactions
 
-```python
-import kittn
+## The Transaction object
 
-api = kittn.authorize('meowmeowmeow')
-```
+This is an object representing a transaction (payment) between a sender and recipient. Transactions don't necessarily represent a successful payment from the sender to the recipient, as transactions can be either be cancelled (by the sender), declined (by the recipient), or in an error state if the payment failed to go through.
 
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
-```
+Below are the attributes of the Transaction object:
 
-```javascript
-const kittn = require('kittn');
+Parameter | Description
+--------- | -----------
+id | The transaction ID
+status | The transaction's status. Can be one of `pending`, `sent`, `cancelled`, `declined` or `error`
+amount | The amount of currency being sent, in cents
+created_at | The time the transaction was created, in UTC
+description | A description of the payment's purpose. This description will be shown to the recipient upon redemption. 
+recipient_email | The email of the recipient
+completed_at | The time the transaction was completed. Any non-pending transactions will have this field set, indicating the time the transaction status changed.
 
-let api = kittn.authorize('meowmeowmeow');
-```
-
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-
-# Kittens
-
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
+## Create a transaction
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "https://transferless.herokuapp.com/api/transactions/create"
+  -X POST
+  --data "access_key=<YOUR KEY>&recipient_email=<RECIPIENT'S EMAIL>&amount=<AMOUNT>"
 ```
 
-```javascript
-const kittn = require('kittn');
+> The above command returns JSON structured like this:
 
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+```json
+{
+  "id": 40,
+  "status": "pending",
+  "amount": 1000,
+  "created_at": "2017-10-02T19:09:25.762Z",
+  "description": null,
+  "recipient_email": "recipient@email.com",
+  "link": "https:\/\/transferless.herokuapp.com\/receive\/40\/71a93b70d26f41ede9c0aca0c202fd4d1c6a074a",
+  "completed_at": null
+}
+```
+
+This endpoint creates a new Transaction object
+
+### HTTP Request
+
+`POST https://transferless.herokuapp.com/api/create`
+
+### Query Parameters
+
+Parameter | Required | Description
+--------- | ------- | -----------
+access_key | true | Your developer key found on the dashboard
+recipient_email | true | The recipient's email
+amount | true | The amount to send, in cents
+description | false | Optionally provide a description for the payment. Must be no more than 128 characters
+
+### Response
+
+The response will contain the newly created [Transaction](#the-transaction-object) object
+
+## List all transactions
+
+```shell
+curl "https://transferless.herokuapp.com/api/transactions?access_key=<YOUR KEY>"
 ```
 
 > The above command returns JSON structured like this:
@@ -100,140 +95,105 @@ let kittens = api.kittens.get();
 ```json
 [
   {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
+    "id": 40,
+    "status": "pending",
+    "amount": 1000,
+    "created_at": "2017-10-02T19:09:25.762Z",
+    "description": null,
+    "recipient_email": "recipient@email.com",
+    "link": "https:\/\/transferless.herokuapp.com\/receive\/40\/71a93b70d26f41ede9c0aca0c202fd4d1c6a074a",
+    "completed_at": null
   },
   {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+    "id": 39,
+    "status": "pending",
+    "amount": 1000,
+    "created_at": "2017-10-02T19:04:30.533Z",
+    "description": "Payment for September 2017",
+    "recipient_email": "recipient2@email.com",
+    "link": "https:\/\/transferless.herokuapp.com\/receive\/39\/39ef0fd1a8bf764f1f7eaf204c28034e24686bf3",
+    "completed_at": null
   }
 ]
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves all transactions created by the account.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET https://transferless.herokuapp.com/api/transactions`
 
 ### Query Parameters
 
-Parameter | Default | Description
+Parameter | Required | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+access_key | true | Your developer key found on the dashboard
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Response
 
-## Get a Specific Kitten
+The response will contain an array of [Transaction](#the-transaction-object) objects. 
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
+## Get a Specific Transaction
 
 ```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
+curl "https://transferless.herokuapp.com/api/transactions/1?access_key=<YOUR KEY>"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+  "id": 40,
+  "status": "pending",
+  "amount": 1000,
+  "created_at": "2017-10-02T19:09:25.762Z",
+  "description": null,
+  "recipient_email": "recipient@email.com",
+  "link": "https:\/\/transferless.herokuapp.com\/receive\/40\/71a93b70d26f41ede9c0aca0c202fd4d1c6a074a",
+  "completed_at": null
 }
 ```
 
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+This endpoint retrieves a specific Transaction.
 
 ### HTTP Request
 
-`GET http://example.com/kittens/<ID>`
+`GET https://transferless.herokuapp.com/api/transactions/:id`
 
 ### URL Parameters
 
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
+Parameter | Required | Description
+--------- | ------- | -----------
+access_key | true | Your developer key found on the dashboard
+id | true | The transaction ID to retrieve
 
-## Delete a Specific Kitten
+### Response
 
-```ruby
-require 'kittn'
+The response will be a single [Transaction](#the-transaction-object)
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
+## Cancel a Transaction
 
 ```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
+curl "https://transferless.herokuapp.com/api/transactions/1/cancel"
+  -X POST
+  --data "access_key=<YOUR KEY>"
 ```
 
-```javascript
-const kittn = require('kittn');
+This endpoint cancels a pending transaction.
 
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
-```
-
-This endpoint retrieves a specific kitten.
+<aside class="warning">Note: You can only cancel pending Transactions. Trying to cancel a Transaction with any other state will result in an error</aside>
 
 ### HTTP Request
 
-`DELETE http://example.com/kittens/<ID>`
+`POST https://transferless.herokuapp.com/api/transactions/:id/cancel`
 
 ### URL Parameters
 
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
+Parameter | Required | Description
+--------- | ------- | -----------
+access_key | true | Your developer key found on the dashboard
+id | true | The transaction ID to cancel
 
+### Response
+
+Returns HTTP status 200 if the transaction was cancelled.
