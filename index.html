@@ -249,7 +249,7 @@
           </li>
       </div>
         <ul class="toc-footer">
-            <li><a href='https://transferless.herokuapp.com/signup'>Sign Up for a Developer Key</a></li>
+            <li><a href='https://payclick.io/signup'>Sign Up for a Developer Key</a></li>
             <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
         </ul>
     </div>
@@ -257,11 +257,11 @@
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='introduction'>Introduction</h1>
-<p>Welcome to the TransferLess API docs. You can use the API to create, cancel and view payments programmatically.</p>
+<p>Welcome to the PayClick API docs. You can use the API to create, cancel and view payments programmatically.</p>
 <h1 id='authentication'>Authentication</h1>
-<p>TransferLess uses API keys to allow access to the API. You can find your API key on your <a href="https://transferless.herokuapp.com/dashboard">dashboard</a>.</p>
+<p>PayClick uses API keys to allow access to the API. You can find your API key on your <a href="https://payclick.io/dashboard">dashboard</a>.</p>
 
-<p>TransferLess expects the API key to be included in all API requests to the server in a parameter called <code>access_key</code>.</p>
+<p>PayClick expects the API key to be included in all API requests to the server in a parameter called <code>access_key</code>.</p>
 <h1 id='transactions'>Transactions</h1><h2 id='the-transaction-object'>The Transaction object</h2>
 <p>This is an object representing a transaction (payment) between a sender and recipient. Transactions don&#39;t necessarily represent a successful payment from the sender to the recipient, as transactions can be either be cancelled (by the sender), declined (by the recipient), or in an error state if the payment failed to go through.</p>
 
@@ -302,7 +302,7 @@
 <td>The time the transaction was completed. Any non-pending transactions will have this field set, indicating the time the transaction status changed.</td>
 </tr>
 </tbody></table>
-<h2 id='create-a-transaction'>Create a transaction</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://transferless.herokuapp.com/api/transactions/create"</span>
+<h2 id='create-a-transaction'>Create a transaction</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://payclick.io/api/transactions/create"</span>
   -X POST
   --data <span class="s2">"access_key=&lt;YOUR KEY&gt;&amp;recipient_email=&lt;RECIPIENT'S EMAIL&gt;&amp;amount=&lt;AMOUNT&gt;"</span>
 </code></pre>
@@ -316,13 +316,13 @@
   </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-10-02T19:09:25.762Z"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
   </span><span class="s2">"recipient_email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"recipient@email.com"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"link"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https:</span><span class="se">\/\/</span><span class="s2">transferless.herokuapp.com</span><span class="se">\/</span><span class="s2">receive</span><span class="se">\/</span><span class="s2">40</span><span class="se">\/</span><span class="s2">71a93b70d26f41ede9c0aca0c202fd4d1c6a074a"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"link"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https:</span><span class="se">\/\/</span><span class="s2">payclick.io</span><span class="se">\/</span><span class="s2">receive</span><span class="se">\/</span><span class="s2">40</span><span class="se">\/</span><span class="s2">71a93b70d26f41ede9c0aca0c202fd4d1c6a074a"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"completed_at"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint creates a new Transaction object</p>
 <h3 id='http-request'>HTTP Request</h3>
-<p><code>POST https://transferless.herokuapp.com/api/create</code></p>
+<p><code>POST https://payclick.io/api/create</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
 <table><thead>
 <tr>
@@ -351,10 +351,15 @@
 <td>false</td>
 <td>Optionally provide a description for the payment. Must be no more than 128 characters</td>
 </tr>
+<tr>
+<td>send_email</td>
+<td>false</td>
+<td>Optionally send an email alert to the recipient containing the link to make the deposit</td>
+</tr>
 </tbody></table>
 <h3 id='response'>Response</h3>
 <p>The response will contain the newly created <a href="#the-transaction-object">Transaction</a> object</p>
-<h2 id='list-all-transactions'>List all transactions</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://transferless.herokuapp.com/api/transactions?access_key=&lt;YOUR KEY&gt;"</span>
+<h2 id='list-all-transactions'>List all transactions</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://payclick.io/api/transactions?access_key=&lt;YOUR KEY&gt;"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -367,7 +372,7 @@
     </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-10-02T19:09:25.762Z"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
     </span><span class="s2">"recipient_email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"recipient@email.com"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"link"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https:</span><span class="se">\/\/</span><span class="s2">transferless.herokuapp.com</span><span class="se">\/</span><span class="s2">receive</span><span class="se">\/</span><span class="s2">40</span><span class="se">\/</span><span class="s2">71a93b70d26f41ede9c0aca0c202fd4d1c6a074a"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"link"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https:</span><span class="se">\/\/</span><span class="s2">payclick.io</span><span class="se">\/</span><span class="s2">receive</span><span class="se">\/</span><span class="s2">40</span><span class="se">\/</span><span class="s2">71a93b70d26f41ede9c0aca0c202fd4d1c6a074a"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"completed_at"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
@@ -377,14 +382,14 @@
     </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-10-02T19:04:30.533Z"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Payment for September 2017"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"recipient_email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"recipient2@email.com"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"link"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https:</span><span class="se">\/\/</span><span class="s2">transferless.herokuapp.com</span><span class="se">\/</span><span class="s2">receive</span><span class="se">\/</span><span class="s2">39</span><span class="se">\/</span><span class="s2">39ef0fd1a8bf764f1f7eaf204c28034e24686bf3"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"link"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https:</span><span class="se">\/\/</span><span class="s2">payclick.io</span><span class="se">\/</span><span class="s2">receive</span><span class="se">\/</span><span class="s2">39</span><span class="se">\/</span><span class="s2">39ef0fd1a8bf764f1f7eaf204c28034e24686bf3"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"completed_at"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves all transactions created by the account.</p>
 <h3 id='http-request-2'>HTTP Request</h3>
-<p><code>GET https://transferless.herokuapp.com/api/transactions</code></p>
+<p><code>GET https://payclick.io/api/transactions</code></p>
 <h3 id='query-parameters-2'>Query Parameters</h3>
 <table><thead>
 <tr>
@@ -401,7 +406,7 @@
 </tbody></table>
 <h3 id='response-2'>Response</h3>
 <p>The response will contain an array of <a href="#the-transaction-object">Transaction</a> objects. </p>
-<h2 id='get-a-specific-transaction'>Get a Specific Transaction</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://transferless.herokuapp.com/api/transactions/1?access_key=&lt;YOUR KEY&gt;"</span>
+<h2 id='get-a-specific-transaction'>Get a Specific Transaction</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://payclick.io/api/transactions/1?access_key=&lt;YOUR KEY&gt;"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -413,13 +418,13 @@
   </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-10-02T19:09:25.762Z"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
   </span><span class="s2">"recipient_email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"recipient@email.com"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"link"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https:</span><span class="se">\/\/</span><span class="s2">transferless.herokuapp.com</span><span class="se">\/</span><span class="s2">receive</span><span class="se">\/</span><span class="s2">40</span><span class="se">\/</span><span class="s2">71a93b70d26f41ede9c0aca0c202fd4d1c6a074a"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"link"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https:</span><span class="se">\/\/</span><span class="s2">payclick.io</span><span class="se">\/</span><span class="s2">receive</span><span class="se">\/</span><span class="s2">40</span><span class="se">\/</span><span class="s2">71a93b70d26f41ede9c0aca0c202fd4d1c6a074a"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"completed_at"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves a specific Transaction.</p>
 <h3 id='http-request-3'>HTTP Request</h3>
-<p><code>GET https://transferless.herokuapp.com/api/transactions/:id</code></p>
+<p><code>GET https://payclick.io/api/transactions/:id</code></p>
 <h3 id='url-parameters'>URL Parameters</h3>
 <table><thead>
 <tr>
@@ -441,7 +446,7 @@
 </tbody></table>
 <h3 id='response-3'>Response</h3>
 <p>The response will be a single <a href="#the-transaction-object">Transaction</a></p>
-<h2 id='cancel-a-transaction'>Cancel a Transaction</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://transferless.herokuapp.com/api/transactions/1/cancel"</span>
+<h2 id='cancel-a-transaction'>Cancel a Transaction</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://payclick.io/api/transactions/1/cancel"</span>
   -X POST
   --data <span class="s2">"access_key=&lt;YOUR KEY&gt;"</span>
 </code></pre>
@@ -449,7 +454,7 @@
 
 <aside class="warning">Note: You can only cancel pending Transactions. Trying to cancel a Transaction with any other state will result in an error</aside>
 <h3 id='http-request-4'>HTTP Request</h3>
-<p><code>POST https://transferless.herokuapp.com/api/transactions/:id/cancel</code></p>
+<p><code>POST https://payclick.io/api/transactions/:id/cancel</code></p>
 <h3 id='url-parameters-2'>URL Parameters</h3>
 <table><thead>
 <tr>
