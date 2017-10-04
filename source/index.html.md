@@ -76,6 +76,7 @@ access_key | true | Your developer key found on the dashboard
 recipient_email | true | The recipient's email
 amount | true | The amount to send, in cents
 description | false | Optionally provide a description for the payment. Must be no more than 128 characters
+send_email | false | Optionally send an email alert to the recipient containing the link to make the deposit
 
 ### Response
 
