@@ -5,7 +5,7 @@ language_tabs: # must be one of https://git.io/vQNgJ
   - shell
 
 toc_footers:
-  - <a href='https://transferless.herokuapp.com/signup'>Sign Up for a Developer Key</a>
+  - <a href='https://payclick.io/signup'>Sign Up for a Developer Key</a>
   - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
 search: true
@@ -13,13 +13,13 @@ search: true
 
 # Introduction
 
-Welcome to the TransferLess API docs. You can use the API to create, cancel and view payments programmatically.
+Welcome to the PayClick API docs. You can use the API to create, cancel and view payments programmatically.
 
 # Authentication
 
-TransferLess uses API keys to allow access to the API. You can find your API key on your [dashboard](https://transferless.herokuapp.com/dashboard).
+PayClick uses API keys to allow access to the API. You can find your API key on your [dashboard](https://payclick.io/dashboard).
 
-TransferLess expects the API key to be included in all API requests to the server in a parameter called `access_key`.
+PayClick expects the API key to be included in all API requests to the server in a parameter called `access_key`.
 
 # Transactions
 
@@ -42,7 +42,7 @@ completed_at | The time the transaction was completed. Any non-pending transacti
 ## Create a transaction
 
 ```shell
-curl "https://transferless.herokuapp.com/api/transactions/create"
+curl "https://payclick.io/api/transactions/create"
   -X POST
   --data "access_key=<YOUR KEY>&recipient_email=<RECIPIENT'S EMAIL>&amount=<AMOUNT>"
 ```
@@ -57,7 +57,7 @@ curl "https://transferless.herokuapp.com/api/transactions/create"
   "created_at": "2017-10-02T19:09:25.762Z",
   "description": null,
   "recipient_email": "recipient@email.com",
-  "link": "https:\/\/transferless.herokuapp.com\/receive\/40\/71a93b70d26f41ede9c0aca0c202fd4d1c6a074a",
+  "link": "https:\/\/payclick.io\/receive\/40\/71a93b70d26f41ede9c0aca0c202fd4d1c6a074a",
   "completed_at": null
 }
 ```
@@ -66,7 +66,7 @@ This endpoint creates a new Transaction object
 
 ### HTTP Request
 
-`POST https://transferless.herokuapp.com/api/create`
+`POST https://payclick.io/api/create`
 
 ### Query Parameters
 
@@ -85,7 +85,7 @@ The response will contain the newly created [Transaction](#the-transaction-objec
 ## List all transactions
 
 ```shell
-curl "https://transferless.herokuapp.com/api/transactions?access_key=<YOUR KEY>"
+curl "https://payclick.io/api/transactions?access_key=<YOUR KEY>"
 ```
 
 > The above command returns JSON structured like this:
@@ -99,7 +99,7 @@ curl "https://transferless.herokuapp.com/api/transactions?access_key=<YOUR KEY>"
     "created_at": "2017-10-02T19:09:25.762Z",
     "description": null,
     "recipient_email": "recipient@email.com",
-    "link": "https:\/\/transferless.herokuapp.com\/receive\/40\/71a93b70d26f41ede9c0aca0c202fd4d1c6a074a",
+    "link": "https:\/\/payclick.io\/receive\/40\/71a93b70d26f41ede9c0aca0c202fd4d1c6a074a",
     "completed_at": null
   },
   {
@@ -109,7 +109,7 @@ curl "https://transferless.herokuapp.com/api/transactions?access_key=<YOUR KEY>"
     "created_at": "2017-10-02T19:04:30.533Z",
     "description": "Payment for September 2017",
     "recipient_email": "recipient2@email.com",
-    "link": "https:\/\/transferless.herokuapp.com\/receive\/39\/39ef0fd1a8bf764f1f7eaf204c28034e24686bf3",
+    "link": "https:\/\/payclick.io\/receive\/39\/39ef0fd1a8bf764f1f7eaf204c28034e24686bf3",
     "completed_at": null
   }
 ]
@@ -119,7 +119,7 @@ This endpoint retrieves all transactions created by the account.
 
 ### HTTP Request
 
-`GET https://transferless.herokuapp.com/api/transactions`
+`GET https://payclick.io/api/transactions`
 
 ### Query Parameters
 
@@ -134,7 +134,7 @@ The response will contain an array of [Transaction](#the-transaction-object) obj
 ## Get a Specific Transaction
 
 ```shell
-curl "https://transferless.herokuapp.com/api/transactions/1?access_key=<YOUR KEY>"
+curl "https://payclick.io/api/transactions/1?access_key=<YOUR KEY>"
 ```
 
 > The above command returns JSON structured like this:
@@ -147,7 +147,7 @@ curl "https://transferless.herokuapp.com/api/transactions/1?access_key=<YOUR KEY
   "created_at": "2017-10-02T19:09:25.762Z",
   "description": null,
   "recipient_email": "recipient@email.com",
-  "link": "https:\/\/transferless.herokuapp.com\/receive\/40\/71a93b70d26f41ede9c0aca0c202fd4d1c6a074a",
+  "link": "https:\/\/payclick.io\/receive\/40\/71a93b70d26f41ede9c0aca0c202fd4d1c6a074a",
   "completed_at": null
 }
 ```
@@ -156,7 +156,7 @@ This endpoint retrieves a specific Transaction.
 
 ### HTTP Request
 
-`GET https://transferless.herokuapp.com/api/transactions/:id`
+`GET https://payclick.io/api/transactions/:id`
 
 ### URL Parameters
 
@@ -172,7 +172,7 @@ The response will be a single [Transaction](#the-transaction-object)
 ## Cancel a Transaction
 
 ```shell
-curl "https://transferless.herokuapp.com/api/transactions/1/cancel"
+curl "https://payclick.io/api/transactions/1/cancel"
   -X POST
   --data "access_key=<YOUR KEY>"
 ```
@@ -183,7 +183,7 @@ This endpoint cancels a pending transaction.
 
 ### HTTP Request
 
-`POST https://transferless.herokuapp.com/api/transactions/:id/cancel`
+`POST https://payclick.io/api/transactions/:id/cancel`
 
 ### URL Parameters
 
