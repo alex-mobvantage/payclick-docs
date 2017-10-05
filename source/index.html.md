@@ -66,7 +66,7 @@ This endpoint creates a new Transaction object
 
 ### HTTP Request
 
-`POST https://payclick.io/api/create`
+`POST https://payclick.io/api/transactions/create`
 
 ### Query Parameters
 
